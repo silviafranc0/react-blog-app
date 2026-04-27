@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Content from "../components/blog/Content";
 import CommentForm from "../components/blog/CommentForm";
+import { useAuth } from "../components/authWrapper/AuthContext";
 
 function IndividualPostPage() {
   const { id: postId } = useParams();
+  const { user } = useAuth();
 
-  const [post, setPost]         = useState(null);
-  const [author, setAuthor]     = useState(null);
+  const [post, setPost] = useState(null);
+  const [author, setAuthor] = useState(null);
   const [comments, setComments] = useState([]);
-  const [loading, setLoading]   = useState(true);
-  const [error, setError]       = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     axios.get(`https://jsonplaceholder.typicode.com/posts/${postId}`)
@@ -38,7 +40,6 @@ function IndividualPostPage() {
       });
   }, [postId]);
 
-  // ✅ keep this!
   function handleAddComment(newComment) {
     axios.post(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`, newComment)
       .then((response) => {
@@ -71,18 +72,22 @@ function IndividualPostPage() {
         <h2 className="text-xl font-semibold mb-4 text-gray-800">
           Comments ({comments.length})
         </h2>
-        <CommentForm onAddComment={handleAddComment} />
+
+        {user ? (
+          <CommentForm onAddComment={handleAddComment} />
+        ) : (
+          <p className="text-gray-500 italic mb-4">
+            Please <Link to="/login" className="text-blue-600 hover:underline">log in</Link> to comment.
+          </p>
+        )}
+
         <div className="mt-6 space-y-4">
-          {comments.length === 0 ? (
-            <p className="text-gray-500 italic">No comments yet. Be the first to comment!</p>
-          ) : (
-            comments.map((comment, index) => (
-              <div key={index} className="border border-gray-100 rounded-lg p-4 bg-gray-50">
-                <p className="font-medium text-gray-800 text-sm mb-1">{comment.name}</p>
-                <p className="text-gray-600 text-sm">{comment.body}</p>
-              </div>
-            ))
-          )}
+          {comments.map((comment, index) => (
+            <div key={index} className="border border-gray-100 rounded-lg p-4 bg-gray-50">
+              <p className="font-medium text-gray-800 text-sm mb-1">{comment.name}</p>
+              <p className="text-gray-600 text-sm">{comment.body}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
