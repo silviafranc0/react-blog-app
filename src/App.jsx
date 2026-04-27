@@ -7,7 +7,7 @@ import BlogPostsPage from './pages/BlogPostsPage';
 import IndividualPostPage from './pages/IndividualPostPage';
 import ContactPage from './pages/ContactPage';
 import { AuthProvider } from './components/authWrapper/authProvider';
-import Homepage from './pages/Homepage';
+import Homepage from './pages/HomePage';
 import Login from './components/login/login';
 import ProtectedRoute from './components/authWrapper/ProtectedRoute';
 
