@@ -6,9 +6,9 @@ import Header from './components/common/Header';
 import BlogPostsPage from './pages/BlogPostsPage';
 import IndividualPostPage from './pages/IndividualPostPage';
 import ContactPage from './pages/ContactPage';
-import { AuthProvider } from './components/authWrapper/authProvider';
+import { AuthProvider } from './components/authWrapper/AuthProvider';
 import Homepage from './pages/HomePage';
-import Login from './components/login/login';
+import Login from './components/login/Login';
 import ProtectedRoute from './components/authWrapper/ProtectedRoute';
 
 function App() {
